@@ -2,7 +2,8 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKe
 from telegram.ext import ContextTypes, MessageHandler, filters, CallbackQueryHandler
 from telegram.error import BadRequest
 
-from ..小工具 import 仅主人装饰器, 有机体可读下载任务结果, 有机体可读下载器状态结果, 有机体可读统计结果, 有机体可读等待任务结果
+from ..小工具 import 仅主人装饰器, 有机体可读下载任务结果, 有机体可读下载器状态结果, 有机体可读统计结果
+from ..小工具 import 有机体可读等待任务结果
 from ..小工具 import 开始标记
 from ..日志 import 日志器
 from ..下载器 import 获取下载器
@@ -19,9 +20,9 @@ async def 查询活跃任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYP
     日志器.info(f'{更新.effective_user.name} 请求查询活跃任务')
     try:
         async with 获取下载器() as 下载器:
-            结果: list = await 下载器.tellActive(keys=['gid', 'dir', 'downloadSpeed', 'totalLength', 'completedLength', 'files'])
+            结果: list = await 下载器.tellActive()
         if not 结果:
-            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有下载任务')
+            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有下载中的任务')
             return
         好结果 = ''
         for 任务 in 结果:
@@ -38,9 +39,9 @@ async def 刷新活跃任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYP
     日志器.info(f'{更新.effective_user.name} 请求刷新活跃任务')
     try:
         async with 获取下载器() as 下载器:
-            结果: list = await 下载器.tellActive(keys=['gid', 'dir', 'downloadSpeed', 'totalLength', 'completedLength', 'files'])
+            结果: list = await 下载器.tellActive()
         if not 结果:
-            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='所有任务已完成')
+            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有下载中的任务')
             return
         好结果 = ''
         for 任务 in 结果:
@@ -67,7 +68,7 @@ async def 查询等待中任务(更新: Update, 上下文: ContextTypes.DEFAULT_
     日志器.info(f'{更新.effective_user.name} 请求查询等待中任务')
     try:
         async with 获取下载器() as 下载器:
-            结果: list = await 下载器.tellWaiting(offset=0, num=114514, keys=['gid', 'dir', 'totalLength', 'files'])
+            结果: list = await 下载器.tellWaiting(offset=0, num=114514)
         if not 结果:
             await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有等待中任务')
             return
@@ -85,7 +86,7 @@ async def 刷新等待中任务(更新: Update, 上下文: ContextTypes.DEFAULT_
     日志器.info(f'{更新.effective_user.name} 请求刷新等待中任务')
     try:
         async with 获取下载器() as 下载器:
-            结果: list = await 下载器.tellWaiting(offset=0, num=114514, keys=['gid', 'dir', 'totalLength', 'files'])
+            结果: list = await 下载器.tellWaiting(offset=0, num=114514)
         if not 结果:
             await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有等待中任务')
             return
@@ -120,7 +121,7 @@ async def 查询下载器状态(更新: Update, 上下文: ContextTypes.DEFAULT_
         async with 获取下载器() as 下载器:
             本体结果: dict = await 下载器.getVersion()
             统计结果: dict = await 下载器.getGlobalStat()
-        好结果 = await 有机体可读下载器状态结果(本体结果) + '\n\n' + await 有机体可读统计结果(统计结果) + '\n\n' + f'RPC地址: {配置.下载器地址}'
+        好结果 = await 有机体可读下载器状态结果(本体结果) + '\n\n' + await 有机体可读统计结果(统计结果) + '\n\n' + f'RPC地址: {配置.下载器组[0].下载器地址}'
         await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'{好结果}', parse_mode='Markdown', reply_markup=查询下载器刷新标记)
     except Exception as e:
         await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'查询下载器状态出错,错误信息:\n {e.__class__.__name__}: {e}')
@@ -133,7 +134,7 @@ async def 刷新下载器状态(更新: Update, 上下文: ContextTypes.DEFAULT_
         async with 获取下载器() as 下载器:
             本体结果: dict = await 下载器.getVersion()
             统计结果: dict = await 下载器.getGlobalStat()
-        好结果 = await 有机体可读下载器状态结果(本体结果) + '\n\n' + await 有机体可读统计结果(统计结果) + '\n\n' + f'RPC地址: {配置.下载器地址}'
+        好结果 = await 有机体可读下载器状态结果(本体结果) + '\n\n' + await 有机体可读统计结果(统计结果) + '\n\n' + f'RPC地址: {配置.下载器组[0].下载器地址}'
         await 上下文.bot.edit_message_text(chat_id=更新.effective_chat.id, message_id=更新.callback_query.message.message_id,
                                         text=f'{好结果}', parse_mode='Markdown', reply_markup=查询下载器刷新标记)
     except BadRequest:

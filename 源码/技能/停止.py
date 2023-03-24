@@ -1,4 +1,4 @@
-from ..小工具 import 仅主人装饰器, 有机体可读统计结果
+from ..小工具 import 仅主人装饰器, 有机体可读统计结果, 回主菜单标记
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes, MessageHandler, filters, CallbackQueryHandler
 from ..下载器 import 获取下载器
@@ -49,11 +49,15 @@ async def 请求清空任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYP
 async def 确认清空任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
     日志器.warning(f'{更新.effective_user.name} 确认清空任务')
     async with 获取下载器() as 下载器:
-        活跃的任务 = await 下载器.tellActive(keys=['gid'])
+        活跃的任务 = await 下载器.tellActive()
         if 活跃的任务:
             for 任务 in 活跃的任务:
-                await 下载器.remove(任务['gid'])
-        await 下载器.pauseAll()
+                await 下载器.forceRemove(任务['gid'])
+        等待的任务 = await 下载器.tellWaiting(0, 114514)
+        if 等待的任务:
+            for 任务 in 等待的任务:
+                await 下载器.forceRemove(任务['gid'])
+        await 下载器.forcePauseAll()
         await 下载器.purgeDownloadResult()
     await 上下文.bot.edit_message_text(chat_id=更新.effective_chat.id, message_id=更新.callback_query.message.message_id,
                                     text='已清空任务')
