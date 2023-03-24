@@ -1,0 +1,12 @@
+from aioaria2 import Aria2HttpClient,Aria2WebsocketTrigger
+from contextlib import asynccontextmanager
+from .配置 import 配置
+
+
+@asynccontextmanager
+async def 获取下载器():
+    下载器 = Aria2HttpClient(url=配置.下载器地址, token=配置.下载器密钥)
+    try:
+        yield 下载器
+    finally:
+        await 下载器.close()

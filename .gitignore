@@ -1,0 +1,6 @@
+
+# Ignore dynaconf secret files
+config.dev*
+venv
+__pycache__
+*.log
