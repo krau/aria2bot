@@ -1,24 +1,26 @@
+import os
 import re
-from telegram import Update, ReplyKeyboardMarkup
+
+from urllib.parse import urlparse
+from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes
 from .配置 import 配置
 from .日志 import 日志器
 
-'''
-async def 从消息中获取链接列表(文字消息: str) -> list[str]:
-    普通链接列表 = re.findall(
-        '(?:https?|ftp|sftp)://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', 文字消息)
-    日志器.debug(f'普通链接列表: {普通链接列表}')
-    磁力链接列表 = re.findall(r'magnet:\?xt=urn:btih:[a-fA-F0-9]+', 文字消息)
-    总链接列表 =  普通链接列表.extend(磁力链接列表)
-    日志器.debug(f'总链接列表: {总链接列表}')
-    return 总链接列表
-'''
 
 开始键盘 = [['暂停所有任务', '添加下载任务', '取消暂停所有任务'],
         ['查询活跃任务', '查询下载器状态', '查询等待中任务'],
         ['清空任务']]
 开始标记 = ReplyKeyboardMarkup(keyboard=开始键盘)
+回主菜单标记 = InlineKeyboardMarkup(
+    [[InlineKeyboardButton('回主菜单', callback_data='回主菜单')]])
+
+
+async def 从消息中获取链接列表(文字消息: str) -> list[str | None]:
+    非磁力正则式 = r'(?:http[s]?|ftp|sftp)://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    非磁力链接 = re.findall(非磁力正则式, 文字消息)
+    磁力链接 = re.findall('magnet:\?xt=urn:btih:[0-9a-fA-F]{40,}.*', 文字消息)
+    return 非磁力链接 + 磁力链接
 
 
 def 仅主人装饰器(func):
@@ -55,7 +57,7 @@ async def 文件单位转换(文件大小: str | int) -> str:
 
 async def 有机体可读下载任务结果(原始结果: dict) -> str:
     gid = 原始结果['gid']
-    文件 = 原始结果['files'][0]['path']
+    文件 = await 获取文件名(原始结果)
     文件数量 = len(原始结果['files'])
     下载目录 = 原始结果['dir']
     下载速度 = await 文件单位转换(原始结果['downloadSpeed'])
@@ -86,6 +88,18 @@ async def 有机体可读统计结果(原始结果: dict) -> str:
 async def 有机体可读等待任务结果(原始结果: dict) -> str:
     gid = 原始结果['gid']
     下载目录 = 原始结果['dir']
-    文件 = 原始结果['files'][0]['path']
+    文件 = await 获取文件名(原始结果)
     总大小 = await 文件单位转换(原始结果['totalLength'])
     return f'任务ID: `{gid}`\n文件: *{文件}*\n下载目录: *{下载目录}*\n总大小: *{总大小}*'
+
+
+async def 获取文件名(任务: dict) -> str:
+    if 任务.__contains__('bittorrent'):
+        if 任务['bittorrent'].__contains__('info'):
+            return 任务['bittorrent']['info']['name']
+        return 任务['files'][0]['path']
+    文件名 = 任务['files'][0]['path'].split('/')[-1]
+    if 文件名 == '':
+        啪 = urlparse(任务['files'][0]['uris'][0]['uri'])
+        文件名 = os.path.basename(啪.path)
+    return 文件名
