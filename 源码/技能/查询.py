@@ -1,8 +1,8 @@
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes, MessageHandler, filters, CallbackQueryHandler
 from telegram.error import BadRequest
 
-from ..小工具 import 仅主人装饰器, 有机体可读下载任务结果, 有机体可读下载器状态结果, 有机体可读统计结果
+from ..小工具 import 仅主人装饰器, 有机体可读下载任务简略结果, 有机体可读下载器状态结果, 有机体可读统计结果
 from ..小工具 import 有机体可读等待任务结果
 from ..小工具 import 开始标记
 from ..日志 import 日志器
@@ -26,7 +26,7 @@ async def 查询活跃任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYP
             return
         好结果 = ''
         for 任务 in 结果:
-            好结果 = 好结果 + await 有机体可读下载任务结果(任务) + '\n\n'
+            好结果 = 好结果 + await 有机体可读下载任务简略结果(任务) + '\n\n'
         await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'当前活跃任务:\n\n{好结果}',
                                    parse_mode='Markdown', reply_markup=查询活跃刷新标记)
     except Exception as e:
@@ -45,7 +45,7 @@ async def 刷新活跃任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYP
             return
         好结果 = ''
         for 任务 in 结果:
-            好结果 = 好结果 + await 有机体可读下载任务结果(任务) + '\n\n'
+            好结果 = 好结果 + await 有机体可读下载任务简略结果(任务) + '\n\n'
         await 上下文.bot.edit_message_text(chat_id=更新.effective_chat.id, message_id=更新.callback_query.message.message_id,
                                         text=f'当前活跃任务:\n\n{好结果} 共有{len(结果)}个活跃任务', parse_mode='Markdown', reply_markup=查询活跃刷新标记)
     except BadRequest:
@@ -144,13 +144,13 @@ async def 刷新下载器状态(更新: Update, 上下文: ContextTypes.DEFAULT_
     except Exception as e:
         await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'刷新下载器状态出错,错误信息:\n {e.__class__.__name__}: {e}')
 
-查询活跃任务处理器 = MessageHandler(filters.Regex('查询活跃任务'), 查询活跃任务)
+查询活跃任务处理器 = MessageHandler(filters.Regex('活跃任务'), 查询活跃任务)
 
 刷新活跃任务处理器 = CallbackQueryHandler(刷新活跃任务, pattern='刷新活跃任务')
 
-查询下载器状态处理器 = MessageHandler(filters.Regex('查询下载器状态'), 查询下载器状态)
+查询下载器状态处理器 = MessageHandler(filters.Regex('下载器状态'), 查询下载器状态)
 
-查询等待中任务处理器 = MessageHandler(filters.Regex('查询等待中任务'), 查询等待中任务)
+查询等待中任务处理器 = MessageHandler(filters.Regex('等待中任务'), 查询等待中任务)
 
 刷新等待中任务处理器 = CallbackQueryHandler(刷新等待中任务, pattern='刷新等待中任务')
 

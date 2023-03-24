@@ -21,8 +21,9 @@ async def 添加下载任务回复中(更新: Update, 上下文: ContextTypes.DE
 
 
 async def 添加下载任务已回复(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE) -> int:
-    if await 不是主人(更新.effective_user.id):
-        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=await 不是主人(更新.effective_user.id))
+    不是主人旗 = await 不是主人(更新.effective_user.id)
+    if 不是主人旗:
+        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=不是主人旗)
         return ConversationHandler.END
     日志器.info(f'{更新.effective_user.name} 已回复添加下载任务')
     下载链接列表 = await 从消息中获取链接列表(更新.effective_message.text)

@@ -8,9 +8,9 @@ from .配置 import 配置
 from .日志 import 日志器
 
 
-开始键盘 = [['暂停所有任务', '添加下载任务', '取消暂停所有任务'],
-        ['查询活跃任务', '查询下载器状态', '查询等待中任务'],
-        ['清空任务']]
+开始键盘 = [['暂停所有任务', '添加下载任务', '恢复所有任务'],
+        ['活跃任务', '下载器状态', '等待中任务'],
+        ['⚠️清空任务', '操作单任务']]
 开始标记 = ReplyKeyboardMarkup(keyboard=开始键盘)
 回主菜单标记 = InlineKeyboardMarkup(
     [[InlineKeyboardButton('回主菜单', callback_data='回主菜单')]])
@@ -55,16 +55,31 @@ async def 文件单位转换(文件大小: str | int) -> str:
         return f'{文件大小 / 1024 ** 4:.2f} TB'
 
 
-async def 有机体可读下载任务结果(原始结果: dict) -> str:
+async def 有机体可读下载任务详细结果(原始结果: dict) -> str:
     gid = 原始结果['gid']
     文件 = await 获取文件名(原始结果)
+    try:
+        链接 = 原始结果['files'][0]['uris'][0]['uri']
+    except IndexError:
+        链接 = '无'
     文件数量 = len(原始结果['files'])
     下载目录 = 原始结果['dir']
     下载速度 = await 文件单位转换(原始结果['downloadSpeed'])
     总大小 = await 文件单位转换(原始结果['totalLength'])
     已完成 = await 文件单位转换(原始结果['completedLength'])
     下载进度 = f'{int(原始结果["completedLength"]) / int(原始结果["totalLength"]) * 100:.2f}%'
-    return f'任务ID: `{gid}`\n文件: *{文件}*\n文件数量: {文件数量}\n下载目录: *{下载目录}*\n下载速度: *{下载速度}/s*\n总大小: *{总大小}*\n已完成: *{已完成}*\n下载进度: *{下载进度}*'
+    状态 = 原始结果['status']
+    return f'任务ID: `{gid}`\n文件: *{文件}*\n链接: {链接}\n文件数量: {文件数量}\n下载目录: *{下载目录}*\n下载速度: *{下载速度}/s*\n总大小: *{总大小}*\n已完成: *{已完成}*\n下载进度: *{下载进度}*\n状态: *{状态}*'
+
+
+async def 有机体可读下载任务简略结果(原始结果: dict) -> str:
+    gid = 原始结果['gid']
+    文件 = await 获取文件名(原始结果)
+    下载速度 = await 文件单位转换(原始结果['downloadSpeed'])
+    总大小 = await 文件单位转换(原始结果['totalLength'])
+    已完成 = await 文件单位转换(原始结果['completedLength'])
+    下载进度 = f'{int(原始结果["completedLength"]) / int(原始结果["totalLength"]) * 100:.2f}%'
+    return f'任务ID: `{gid}`\n文件: *{文件}*\n下载速度: *{下载速度}/s*\n总大小: *{总大小}*\n已完成: *{已完成}*\n下载进度: *{下载进度}*'
 
 
 async def 有机体可读下载器状态结果(原始结果: dict) -> str:
@@ -87,10 +102,13 @@ async def 有机体可读统计结果(原始结果: dict) -> str:
 
 async def 有机体可读等待任务结果(原始结果: dict) -> str:
     gid = 原始结果['gid']
-    下载目录 = 原始结果['dir']
     文件 = await 获取文件名(原始结果)
     总大小 = await 文件单位转换(原始结果['totalLength'])
-    return f'任务ID: `{gid}`\n文件: *{文件}*\n下载目录: *{下载目录}*\n总大小: *{总大小}*'
+    try:
+        链接 = 原始结果['files'][0]['uris'][0]['uri']
+    except IndexError:
+        链接 = '无'
+    return f'任务ID: `{gid}`\n文件: *{文件}*\n总大小: *{总大小}*\n链接: {链接}'
 
 
 async def 获取文件名(任务: dict) -> str:
