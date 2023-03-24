@@ -6,7 +6,7 @@ from ..日志 import 日志器
 
 
 @仅主人装饰器
-async def 取消暂停所有任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
+async def 恢复所有任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
     日志器.info(f'{更新.effective_user.name} 取消暂停所有任务')
     async with 获取下载器() as 下载器:
         await 下载器.unpauseAll()
@@ -63,7 +63,7 @@ async def 确认清空任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYP
                                     text='已清空任务')
 
 取消暂停所有任务处理器 = MessageHandler(
-    filters=filters.Regex('取消暂停所有任务'), callback=取消暂停所有任务)
+    filters=filters.Regex('恢复所有任务'), callback=恢复所有任务)
 暂停所有任务处理器 = MessageHandler(filters=filters.Regex('暂停所有任务'), callback=暂停所有任务)
 确认清空任务处理器 = CallbackQueryHandler(pattern='确认清空任务', callback=确认清空任务)
 请求清空任务处理器 = MessageHandler(filters=filters.Regex('清空任务'), callback=请求清空任务)

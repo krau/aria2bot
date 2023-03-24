@@ -144,13 +144,13 @@ async def 刷新下载器状态(更新: Update, 上下文: ContextTypes.DEFAULT_
     except Exception as e:
         await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'刷新下载器状态出错,错误信息:\n {e.__class__.__name__}: {e}')
 
-查询活跃任务处理器 = MessageHandler(filters.Regex('查询活跃任务'), 查询活跃任务)
+查询活跃任务处理器 = MessageHandler(filters.Regex('活跃任务'), 查询活跃任务)
 
 刷新活跃任务处理器 = CallbackQueryHandler(刷新活跃任务, pattern='刷新活跃任务')
 
-查询下载器状态处理器 = MessageHandler(filters.Regex('查询下载器状态'), 查询下载器状态)
+查询下载器状态处理器 = MessageHandler(filters.Regex('下载器状态'), 查询下载器状态)
 
-查询等待中任务处理器 = MessageHandler(filters.Regex('查询等待中任务'), 查询等待中任务)
+查询等待中任务处理器 = MessageHandler(filters.Regex('等待中任务'), 查询等待中任务)
 
 刷新等待中任务处理器 = CallbackQueryHandler(刷新等待中任务, pattern='刷新等待中任务')
 

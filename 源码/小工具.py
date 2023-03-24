@@ -8,9 +8,9 @@ from .配置 import 配置
 from .日志 import 日志器
 
 
-开始键盘 = [['暂停所有任务', '添加下载任务', '取消暂停所有任务'],
-        ['查询活跃任务', '查询下载器状态', '查询等待中任务'],
-        ['清空任务']]
+开始键盘 = [['暂停所有任务', '添加下载任务', '恢复所有任务'],
+        ['活跃任务', '下载器状态', '等待中任务'],
+        ['⚠️清空任务']]
 开始标记 = ReplyKeyboardMarkup(keyboard=开始键盘)
 回主菜单标记 = InlineKeyboardMarkup(
     [[InlineKeyboardButton('回主菜单', callback_data='回主菜单')]])
