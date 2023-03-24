@@ -11,12 +11,16 @@ from 源码.技能.查询 import 查询活跃任务处理器, 刷新活跃任务
 from 源码.技能.查询 import 查询等待中任务处理器, 刷新等待中任务处理器, 刷新下载器状态处理器
 from 源码.技能.停止 import 取消暂停所有任务处理器, 暂停所有任务处理器, 确认清空任务处理器, 请求清空任务处理器
 
+if not os.path.exists('log'):
+    os.mkdir('log')
 
 日志器.info('Aria2Bot启动中...')
 if 配置.代理地址:
     日志器.debug(f'设置代理为: {配置.代理地址}')
     os.environ['HTTP_PROXY'] = 配置.代理地址
     os.environ['HTTPS_PROXY'] = 配置.代理地址
+
+
 日志器.debug(f'Aria2地址: {配置.下载器地址}')
 
 

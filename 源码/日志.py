@@ -13,7 +13,7 @@ from .配置 import 配置
 日志器.addHandler(流处理器)
 
 时旋文件处理器 = handlers.TimedRotatingFileHandler(
-    filename='log/aria2bot.log',
+    filename='./log/aria2bot.log',
     when='D',
     interval=1,
     backupCount=7,
