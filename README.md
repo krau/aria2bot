@@ -21,6 +21,16 @@ pip install -r requirements.txt
 python bot.py
 ```
 
+## demo
+
+![菜单](https://i.imgur.com/apNHIiG.png)
+
+![查询下载器状态](https://i.imgur.com/M7gQTxN.png)
+
+![查询任务队列](https://i.imgur.com/BV31Nzf.png)
+
+![刷新](https://i.imgur.com/HFEOI3C.png)
+
 ## TODO
 
 - [ ] 添加下载任务
