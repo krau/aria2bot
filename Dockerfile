@@ -1,4 +1,4 @@
-FROM python3.11
+FROM python:3.11.2-alpine3.17
 
 COPY . /aria2bot
 WORKDIR /aria2bot
