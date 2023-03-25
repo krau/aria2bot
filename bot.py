@@ -12,8 +12,8 @@ from 源码.技能.查询 import 查询等待中任务处理器, 刷新等待中
 from 源码.技能.停止 import 恢复所有任务处理器, 暂停所有任务处理器, 确认清空任务处理器, 请求清空任务处理器
 from 源码.技能.单独操作 import 操作单任务对话处理器, 暂停单任务处理器, 继续单任务处理器, 删除单任务处理器, 刷新单任务处理器
 
-if not os.path.exists('log'):
-    os.mkdir('log')
+if not os.path.exists('./log'):
+    os.mkdir('./log')
 
 日志器.info('Aria2Bot启动中...')
 if 配置.代理地址:
