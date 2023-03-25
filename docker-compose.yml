@@ -5,9 +5,8 @@ services:
     container_name: aria2bot
     restart: unless-stopped
     volumes:
-      - /path/to/config.yaml:/aria2bot/config.yaml
-      - /path/to/config.dev.yaml:/aria2bot/config.dev.yaml
-      - /path/to/log:/aria2bot/log
+      - /path/to/config.yaml:/aria2bot/config.yaml #冒号前是你自己的配置文件路径
+      - /path/to/log:/aria2bot/log #冒号前是你自己的日志文件路径
     environment:
       - TZ=Asia/Shanghai
     network_mode: host

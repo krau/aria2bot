@@ -16,6 +16,58 @@ Aria2 Telegram Bot 用 bot 控制 Aria2 下载器
 
 ## 使用
 
+### docker-compose 部署
+
+下载 `docker-compose.yml` 文件:
+
+```yml
+version: "3"
+services:
+  aria2bot:
+    image: ghcr.io/krau/aria2bot:main
+    container_name: aria2bot
+    restart: unless-stopped
+    volumes:
+      - /path/to/config.yaml:/aria2bot/config.yaml #冒号前是你自己的配置文件路径
+      - /path/to/log:/aria2bot/log #冒号前是你自己的日志文件路径
+    environment:
+      - TZ=Asia/Shanghai
+    network_mode: host
+```
+
+在同一目录下新建并修改 `config.yaml` 中的各项配置
+
+```yaml
+# 必填
+机器人密钥: ""
+# 主人id,必填,支持多个
+主人:
+  -
+
+# 代理地址,留空为不使用代理
+代理地址:
+
+# 日志等级,可选: DEBUG INFO WARN ERROR 还有什么我忘了,建议保持默认
+控制台日志等级: "INFO"
+文件日志等级: "DEBUG"
+
+# 支持多下载器(wip)
+# 下载器名: 自定义,将作为标识
+# 下载器地址: 示例: http://127.0.0.1:6800/jsonrpc
+# 下载器密钥: 即你设置的rpc密钥
+下载器组:
+  - 下载器名: ""
+    下载器地址: ""
+    下载器密钥: ""
+  - 下载器名: ""
+    下载器地址: ""
+    下载器密钥: ""
+```
+
+运行 `docker-compose up -d` 启动容器
+
+### 源码运行
+
 ```bash
 git clone https://github.com/krau/aria2bot
 cd aria2bot
@@ -35,13 +87,13 @@ python bot.py
 
 ## demo
 
-![菜单](https://i.imgur.com/apNHIiG.png)
+![图 1](images/1.webp)  
 
-![查询下载器状态](https://i.imgur.com/M7gQTxN.png)
+![图 2](images/2.webp)  
 
-![查询任务队列](https://i.imgur.com/BV31Nzf.png)
+![图 3](images/3.webp)  
 
-![刷新](https://i.imgur.com/HFEOI3C.png)
+![图 4](images/4.webp)  
 
 ## TODO
 
@@ -51,12 +103,10 @@ python bot.py
 - [ ] 查询各项状态
   - [x] 下载器状态
   - [x] 任务队列
+  - [x] 对每个任务进行查看与操作
   - [ ] 对每个任务进行查看与操作(内联键盘)
 - [ ] 任务完成通知
-- [ ] 自定义设置
-  - [ ] 通过命令更改部分 Aria2 设置
-  - [ ] 交互式更改 RPC 地址等设置
-- [ ] docker compose 部署
+- [x] docker compose 部署
 
 ## 参与开发
 
