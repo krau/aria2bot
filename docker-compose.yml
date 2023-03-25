@@ -1,0 +1,13 @@
+version: "3"
+services:
+  aria2bot:
+    image: ghcr.io/krau/aria2bot:latest
+    container_name: aria2bot
+    restart: unless-stopped
+    volumes:
+      - /path/to/config.yaml:/aria2bot/config.yaml
+      - /path/to/config.dev.yaml:/aria2bot/config.dev.yaml
+      - /path/to/log:/aria2bot/log
+    environment:
+      - TZ=Asia/Shanghai
+    network_mode: host
