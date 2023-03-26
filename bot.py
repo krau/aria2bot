@@ -1,7 +1,7 @@
 import os
 
 from telegram import Update
-from telegram.ext import ContextTypes, ApplicationBuilder, CommandHandler
+from telegram.ext import ContextTypes, ApplicationBuilder, CommandHandler, CallbackContext
 
 from 源码.小工具 import 仅主人装饰器, 开始标记
 from 源码.日志 import 日志器
@@ -27,6 +27,9 @@ async def 开始(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
     日志器.info(f'{更新.effective_user.name} 执行了/start')
     await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='欢迎使用Aria2Bot', reply_markup=开始标记)
 
+
+async def 错误回调(更新: object | None, 上下文: CallbackContext):
+    日志器.error(f'发生错误\n{更新}\n: {上下文.error}')
 
 def 跑():
     应用 = ApplicationBuilder().token(配置.机器人密钥).build()
@@ -55,6 +58,7 @@ def 跑():
         刷新单任务处理器,
     ]
     应用.add_handlers(处理器组)
+    应用.add_error_handler(错误回调)
     日志器.info('Aria2Bot已启动')
     应用.run_polling()
 
