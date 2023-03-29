@@ -22,16 +22,16 @@ async def 查询活跃任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYP
         async with 获取下载器() as 下载器:
             结果: list = await 下载器.tellActive()
         if not 结果:
-            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有下载中的任务')
+            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有下载中的任务', reply_to_message_id=更新.effective_message.id)
             return
         好结果 = ''
         for 任务 in 结果:
             好结果 = 好结果 + await 有机体可读下载任务简略结果(任务) + '\n\n'
         await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'当前活跃任务:\n\n{好结果}',
-                                   parse_mode='Markdown', reply_markup=查询活跃刷新标记)
+                                   parse_mode='Markdown', reply_markup=查询活跃刷新标记, reply_to_message_id=更新.effective_message.id)
     except Exception as e:
         日志器.error(f'查询活跃任务出错,错误信息:\n {e.__class__.__name__}: {e}')
-        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'查询活跃任务出错,错误信息:\n {e.__class__.__name__}: {e}')
+        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'查询活跃任务出错,错误信息:\n {e.__class__.__name__}: {e}', reply_to_message_id=更新.effective_message.id)
 
 
 @仅主人装饰器
@@ -41,7 +41,7 @@ async def 刷新活跃任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYP
         async with 获取下载器() as 下载器:
             结果: list = await 下载器.tellActive()
         if not 结果:
-            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有下载中的任务')
+            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有下载中的任务', reply_to_message_id=更新.effective_message.id)
             return
         好结果 = ''
         for 任务 in 结果:
@@ -54,7 +54,7 @@ async def 刷新活跃任务(更新: Update, 上下文: ContextTypes.DEFAULT_TYP
                                         text=f'当前活跃任务:\n\n{好结果} _当前状态无变化_', parse_mode='Markdown', reply_markup=查询活跃刷新标记)
     except Exception as e:
         日志器.error(f'刷新活跃任务出错,错误信息:\n {e.__class__.__name__}: {e}')
-        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'刷新活跃任务出错,错误信息:\n {e.__class__.__name__}: {e}')
+        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'刷新活跃任务出错,错误信息:\n {e.__class__.__name__}: {e}', reply_to_message_id=更新.effective_message.id)
 
 
 查询等待刷新标记 = InlineKeyboardMarkup(inline_keyboard=[
@@ -70,15 +70,15 @@ async def 查询等待中任务(更新: Update, 上下文: ContextTypes.DEFAULT_
         async with 获取下载器() as 下载器:
             结果: list = await 下载器.tellWaiting(offset=0, num=114514)
         if not 结果:
-            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有等待中任务')
+            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有等待中任务', reply_to_message_id=更新.effective_message.id)
             return
         好结果 = ''
         for 任务 in 结果[:10]:
             好结果 = 好结果 + await 有机体可读等待任务结果(任务) + '\n\n'
-        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'当前等待中任务共{len(结果)}个,最多显示前10条:\n\n{好结果}', parse_mode='Markdown', reply_markup=查询等待刷新标记)
+        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'当前等待中任务共{len(结果)}个,最多显示前10条:\n\n{好结果}', parse_mode='Markdown', reply_markup=查询等待刷新标记, reply_to_message_id=更新.effective_message.id)
     except Exception as e:
         日志器.error(f'查询等待中任务出错,错误信息:\n {e.__class__.__name__}: {e}')
-        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'查询等待中任务出错,错误信息:\n {e.__class__.__name__}: {e}')
+        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'查询等待中任务出错,错误信息:\n {e.__class__.__name__}: {e}', reply_to_message_id=更新.effective_message.id)
 
 
 @仅主人装饰器
@@ -88,26 +88,26 @@ async def 刷新等待中任务(更新: Update, 上下文: ContextTypes.DEFAULT_
         async with 获取下载器() as 下载器:
             结果: list = await 下载器.tellWaiting(offset=0, num=114514)
         if not 结果:
-            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有等待中任务')
+            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='当前没有等待中任务', reply_to_message_id=更新.effective_message.id)
             return
         好结果 = ''
         for 任务 in 结果[:10]:
             好结果 = 好结果 + await 有机体可读等待任务结果(任务) + '\n\n'
         await 上下文.bot.edit_message_text(chat_id=更新.effective_chat.id, message_id=更新.callback_query.message.message_id,
-                                        text=f'最多显示前10条等待中任务:\n\n{好结果} 当前等待中任务共{len(结果)}个', parse_mode='Markdown', reply_markup=查询等待刷新标记)
+                                        text=f'最多显示前10条等待中任务:\n\n{好结果} 当前等待中任务共{len(结果)}个', parse_mode='Markdown', reply_markup=查询等待刷新标记, reply_to_message_id=更新.effective_message.id)
     except BadRequest:
         """状态无变化时的处理"""
         await 上下文.bot.edit_message_text(chat_id=更新.effective_chat.id, message_id=更新.callback_query.message.message_id,
-                                        text=f'最多显示前10条等待中任务:\n\n{好结果} _当前状态无变化_', parse_mode='Markdown', reply_markup=查询等待刷新标记)
+                                        text=f'最多显示前10条等待中任务:\n\n{好结果} _当前状态无变化_', parse_mode='Markdown', reply_markup=查询等待刷新标记, reply_to_message_id=更新.effective_message.id)
     except Exception as e:
         日志器.error(f'刷新等待中任务出错,错误信息:\n {e.__class__.__name__}: {e}')
-        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'刷新等待中任务出错,错误信息:\n {e.__class__.__name__}: {e}')
+        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'刷新等待中任务出错,错误信息:\n {e.__class__.__name__}: {e}', reply_to_message_id=更新.effective_message.id)
 
 
 @仅主人装饰器
 async def 回主菜单(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
     await 上下文.bot.delete_message(chat_id=更新.effective_chat.id, message_id=更新.callback_query.message.message_id)
-    await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='请选择操作:', reply_markup=开始标记)
+    await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='请选择操作:', reply_markup=开始标记, reply_to_message_id=更新.effective_message.id)
 
 
 查询下载器刷新标记 = InlineKeyboardMarkup([[InlineKeyboardButton(
@@ -122,9 +122,9 @@ async def 查询下载器状态(更新: Update, 上下文: ContextTypes.DEFAULT_
             本体结果: dict = await 下载器.getVersion()
             统计结果: dict = await 下载器.getGlobalStat()
         好结果 = await 有机体可读下载器状态结果(本体结果) + '\n\n' + await 有机体可读统计结果(统计结果) + '\n\n' + f'RPC地址: {配置.下载器组[0].下载器地址}'
-        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'{好结果}', parse_mode='Markdown', reply_markup=查询下载器刷新标记)
+        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'{好结果}', parse_mode='Markdown', reply_markup=查询下载器刷新标记, reply_to_message_id=更新.effective_message.id)
     except Exception as e:
-        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'查询下载器状态出错,错误信息:\n {e.__class__.__name__}: {e}')
+        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'查询下载器状态出错,错误信息:\n {e.__class__.__name__}: {e}', reply_to_message_id=更新.effective_message.id)
 
 
 @仅主人装饰器
@@ -142,7 +142,7 @@ async def 刷新下载器状态(更新: Update, 上下文: ContextTypes.DEFAULT_
         await 上下文.bot.edit_message_text(chat_id=更新.effective_chat.id, message_id=更新.callback_query.message.message_id,
                                         text=f'{好结果}\n_当前状态无变化_', parse_mode='Markdown', reply_markup=查询下载器刷新标记)
     except Exception as e:
-        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'刷新下载器状态出错,错误信息:\n {e.__class__.__name__}: {e}')
+        await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=f'刷新下载器状态出错,错误信息:\n {e.__class__.__name__}: {e}', reply_to_message_id=更新.effective_message.id)
 
 查询活跃任务处理器 = MessageHandler(filters.Regex('活跃任务'), 查询活跃任务)
 
