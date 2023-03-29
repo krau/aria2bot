@@ -28,6 +28,12 @@ async def 开始(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
     await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='欢迎使用Aria2Bot', reply_markup=开始标记)
 
 
+async def 帮助(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
+    日志器.info(f'{更新.effective_user.name} 执行了/help')
+    帮助信息 = "/start - 开始使用\n/help - 帮助\n仓库地址: https://github.com/krau/aria2bot"
+    await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=帮助信息)
+
+
 async def 错误回调(更新: object | None, 上下文: CallbackContext):
     日志器.error(f'发生错误\n{更新}\n: {上下文.error}')
 
@@ -37,9 +43,11 @@ def 跑():
     应用._concurrent_updates = False
 
     开始处理器 = CommandHandler('start', 开始)
+    帮助处理器 = CommandHandler('help', 帮助)
 
     处理器组 = [
         开始处理器,
+        帮助处理器,
         添加下载任务处理器,
         强制添加下载任务处理器,
         查询活跃任务处理器,
