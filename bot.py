@@ -25,7 +25,7 @@ if 配置.代理地址:
 @仅主人装饰器
 async def 开始(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
     日志器.info(f'{更新.effective_user.name} 执行了/start')
-    await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='欢迎使用Aria2Bot', reply_markup=开始标记)
+    await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='欢迎使用Aria2Bot', reply_markup=开始标记, reply_to_message_id=更新.effective_message.id)
 
 
 async def 帮助(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):

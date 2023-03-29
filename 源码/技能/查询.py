@@ -107,7 +107,7 @@ async def 刷新等待中任务(更新: Update, 上下文: ContextTypes.DEFAULT_
 @仅主人装饰器
 async def 回主菜单(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
     await 上下文.bot.delete_message(chat_id=更新.effective_chat.id, message_id=更新.callback_query.message.message_id)
-    await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='请选择操作:', reply_markup=开始标记, reply_to_message_id=更新.effective_message.id)
+    await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='请选择操作', reply_markup=开始标记)
 
 
 查询下载器刷新标记 = InlineKeyboardMarkup([[InlineKeyboardButton(
