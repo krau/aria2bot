@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes, ApplicationBuilder, CommandHandler, Callb
 from 源码.小工具 import 仅主人装饰器, 开始标记
 from 源码.日志 import 日志器
 from 源码.配置 import 配置
-from 源码.技能.下载 import 添加下载任务处理器
+from 源码.技能.下载 import 添加下载任务处理器, 强制添加下载任务处理器
 from 源码.技能.查询 import 查询活跃任务处理器, 刷新活跃任务处理器, 回主菜单处理器, 查询下载器状态处理器
 from 源码.技能.查询 import 查询等待中任务处理器, 刷新等待中任务处理器, 刷新下载器状态处理器
 from 源码.技能.停止 import 恢复所有任务处理器, 暂停所有任务处理器, 确认清空任务处理器, 请求清空任务处理器
@@ -31,6 +31,7 @@ async def 开始(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
 async def 错误回调(更新: object | None, 上下文: CallbackContext):
     日志器.error(f'发生错误\n{更新}\n: {上下文.error}')
 
+
 def 跑():
     应用 = ApplicationBuilder().token(配置.机器人密钥).build()
     应用._concurrent_updates = False
@@ -40,6 +41,7 @@ def 跑():
     处理器组 = [
         开始处理器,
         添加下载任务处理器,
+        强制添加下载任务处理器,
         查询活跃任务处理器,
         刷新活跃任务处理器,
         回主菜单处理器,

@@ -91,5 +91,5 @@ async def 强制添加下载任务已回复(更新: Update, 上下文: ContextTy
             MessageHandler(~filters.COMMAND, 强制添加下载任务已回复)
         ]
     },
-    fallbacks=MessageHandler(~filters.COMMAND, 强制添加下载任务已回复)
+    fallbacks=[MessageHandler(~filters.COMMAND, 强制添加下载任务已回复)]
 )
