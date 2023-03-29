@@ -75,7 +75,7 @@ async def 强制添加下载任务已回复(更新: Update, 上下文: ContextTy
     finally:
         return ConversationHandler.END
 
-添加下载任务处理器 = ConversationHandler(per_chat=True, per_user=True, per_message=True,
+添加下载任务处理器 = ConversationHandler(per_chat=True, per_user=True,
                                 entry_points=[MessageHandler(
                                     filters.Regex('添加下载任务'), 添加下载任务回复中)],
                                 states={REPLY: [
@@ -86,7 +86,7 @@ async def 强制添加下载任务已回复(更新: Update, 上下文: ContextTy
                                     ~filters.COMMAND, 添加下载任务已回复)]
                                 )
 
-强制添加下载任务处理器 = ConversationHandler(per_chat=True, per_user=True, per_message=True,
+强制添加下载任务处理器 = ConversationHandler(per_chat=True, per_user=True,
                                   entry_points=[CallbackQueryHandler(
                                       pattern='强制添加', callback=强制添加下载任务回复中)],
                                   states={
