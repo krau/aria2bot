@@ -67,7 +67,10 @@ async def 有机体可读下载任务详细结果(原始结果: dict) -> str:
     下载速度 = await 文件单位转换(原始结果['downloadSpeed'])
     总大小 = await 文件单位转换(原始结果['totalLength'])
     已完成 = await 文件单位转换(原始结果['completedLength'])
-    下载进度 = f'{int(原始结果["completedLength"]) / int(原始结果["totalLength"]) * 100:.2f}%'
+    try:
+        下载进度 = f'{int(原始结果["completedLength"]) / int(原始结果["totalLength"]) * 100:.2f}%'
+    except ZeroDivisionError:
+        下载进度 = '0%'
     状态 = 原始结果['status']
     return f'任务ID: `{gid}`\n文件: *{文件}*\n链接: {链接}\n文件数量: {文件数量}\n下载目录: *{下载目录}*\n下载速度: *{下载速度}/s*\n总大小: *{总大小}*\n已完成: *{已完成}*\n下载进度: *{下载进度}*\n状态: *{状态}*'
 
@@ -78,7 +81,10 @@ async def 有机体可读下载任务简略结果(原始结果: dict) -> str:
     下载速度 = await 文件单位转换(原始结果['downloadSpeed'])
     总大小 = await 文件单位转换(原始结果['totalLength'])
     已完成 = await 文件单位转换(原始结果['completedLength'])
-    下载进度 = f'{int(原始结果["completedLength"]) / int(原始结果["totalLength"]) * 100:.2f}%'
+    try:
+        下载进度 = f'{int(原始结果["completedLength"]) / int(原始结果["totalLength"]) * 100:.2f}%'
+    except ZeroDivisionError:
+        下载进度 = '0%'
     return f'任务ID: `{gid}`\n文件: *{文件}*\n下载速度: *{下载速度}/s*\n总大小: *{总大小}*\n已完成: *{已完成}*\n下载进度: *{下载进度}*'
 
 
