@@ -43,7 +43,7 @@ async def 操作单任务回复(更新: Update, 上下文: ContextTypes.DEFAULT_
         return ConversationHandler.END
 
 
-操作单任务对话处理器 = ConversationHandler(
+操作单任务对话处理器 = ConversationHandler(per_chat=True, per_user=True,
     entry_points=[MessageHandler(filters.Regex('操作单任务'), 操作单任务回复中)],
     states={
         REPLY: [MessageHandler(~filters.COMMAND, 操作单任务回复)],
