@@ -29,14 +29,12 @@ def 仅主人装饰器(func):
             await func(更新, 上下文)
         else:
             日志器.info(f'{更新.effective_user.name} 试图使用 {func.__name__} 被拒绝')
-            await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text='你不是bot主人，无权操作')
     return 包装器
 
 
 async def 不是主人(用户id: int) -> str | None:
     if not 用户id in 配置.主人:
         日志器.info(f'{用户id} 操作被拒绝')
-        return '你不是bot主人，无权操作'
     return None
 
 
