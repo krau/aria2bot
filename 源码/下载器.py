@@ -1,4 +1,4 @@
-from aioaria2 import Aria2HttpClient, Aria2WebsocketTrigger
+from aioaria2 import Aria2HttpClient
 from contextlib import asynccontextmanager
 from .配置 import 配置
 
