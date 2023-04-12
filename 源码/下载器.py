@@ -5,7 +5,7 @@ from .配置 import 配置
 
 @asynccontextmanager
 async def 获取下载器():
-    下载器 = Aria2HttpClient(url=配置.下载器组[0].下载器地址, token=配置.下载器组[0].下载器配置)
+    下载器 = Aria2HttpClient(url=配置.下载器组[0].下载器地址, token=配置.下载器组[0].下载器密钥)
     try:
         yield 下载器
     finally:
