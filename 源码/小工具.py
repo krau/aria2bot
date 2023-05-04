@@ -18,7 +18,7 @@ from .日志 import 日志器
 回主菜单标记 = InlineKeyboardMarkup([[InlineKeyboardButton("回主菜单", callback_data="回主菜单")]])
 
 
-async def 从消息中获取链接列表(文字消息: str) -> list[str]:
+async def 从消息中获取链接列表(文字消息: str) -> list:
     非磁力正则式 = r"(?:http[s]?|ftp|sftp)://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"  # noqa: E501
     非磁力链接 = re.findall(非磁力正则式, 文字消息)
     磁力链接 = re.findall("magnet:\?xt=urn:btih:[0-9a-fA-F]{40,}.*", 文字消息)
