@@ -68,6 +68,8 @@ services:
 
 ### 源码运行
 
+Python 版本: 3.10+
+
 ```bash
 git clone https://github.com/krau/aria2bot
 cd aria2bot
