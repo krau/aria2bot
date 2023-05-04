@@ -1,3 +1,5 @@
+from warnings import filterwarnings
+
 from aioaria2 import Aria2rpcException
 from telegram import ForceReply, InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (
@@ -7,11 +9,15 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )
+from telegram.warnings import PTBUserWarning
 
 from ..下载器 import 获取下载器
 from ..小工具 import 不是主人, 从消息中获取链接列表, 回主菜单标记
 from ..日志 import 日志器
 
+filterwarnings(
+    action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning
+)
 REPLY = range(1)
 添加下载任务成功标记 = InlineKeyboardMarkup(
     [
