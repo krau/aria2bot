@@ -35,13 +35,13 @@ def 仅主人装饰器(func):
     return 包装器
 
 
-async def 不是主人(用户id: int) -> str | None:
+async def 不是主人(用户id: int) -> None:
     if 用户id not in 配置.主人:
         日志器.info(f"{用户id} 操作被拒绝")
     return None
 
 
-async def 文件单位转换(文件大小: str | int) -> str:
+async def 文件单位转换(文件大小: str) -> str:
     if isinstance(文件大小, str):
         文件大小 = int(文件大小)
     if 文件大小 < 1024:
