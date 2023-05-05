@@ -31,7 +31,6 @@ def 仅主人装饰器(func):
             await func(更新, 上下文)
         else:
             日志器.info(f"{更新.effective_user.name} 试图使用 {func.__name__} 被拒绝")
-
     return 包装器
 
 
