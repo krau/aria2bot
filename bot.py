@@ -65,7 +65,7 @@ async def 帮助(更新: Update, 上下文: ContextTypes.DEFAULT_TYPE):
     await 上下文.bot.send_message(chat_id=更新.effective_chat.id, text=帮助信息)
 
 
-async def 错误回调(更新: object | None, 上下文: CallbackContext):
+async def 错误回调(更新, 上下文: CallbackContext):
     日志器.error(f"发生错误\n{更新}\n: {上下文.error}")
 
 
