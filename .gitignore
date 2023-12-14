@@ -4,3 +4,4 @@ config.dev*
 *venv*
 __pycache__
 *.log
+.vscode/

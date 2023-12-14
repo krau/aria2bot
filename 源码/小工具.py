@@ -13,7 +13,11 @@ from .配置 import 配置
 from .日志 import 日志器
 
 
-开始键盘 = [["暂停所有任务", "添加下载任务", "恢复所有任务"], ["活跃任务", "下载器状态", "等待中任务"], ["⚠️清空任务", "操作单任务"]]
+开始键盘 = [
+    ["暂停所有任务", "添加下载任务", "恢复所有任务"],
+    ["活跃任务", "下载器状态", "等待中任务"],
+    ["⚠️清空任务", "操作单任务", "强制下载"],
+]
 开始标记 = ReplyKeyboardMarkup(keyboard=开始键盘, selective=True, resize_keyboard=True)
 回主菜单标记 = InlineKeyboardMarkup([[InlineKeyboardButton("回主菜单", callback_data="回主菜单")]])
 
@@ -31,6 +35,7 @@ def 仅主人装饰器(func):
             await func(更新, 上下文)
         else:
             日志器.info(f"{更新.effective_user.name} 试图使用 {func.__name__} 被拒绝")
+
     return 包装器
 
 

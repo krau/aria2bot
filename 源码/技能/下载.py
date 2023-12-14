@@ -172,7 +172,10 @@ async def 强制添加下载任务已回复(更新: Update, 上下文: ContextTy
 强制添加下载任务处理器 = ConversationHandler(
     per_chat=True,
     per_user=True,
-    entry_points=[CallbackQueryHandler(pattern="强制添加", callback=强制添加下载任务回复中)],
+    entry_points=[
+        CallbackQueryHandler(pattern="强制添加", callback=强制添加下载任务回复中),
+        MessageHandler(filters.Regex("强制下载"), 强制添加下载任务回复中),
+    ],
     states={FORECE_DL_REPLY: [MessageHandler(~filters.COMMAND, 强制添加下载任务已回复)]},
     fallbacks=[MessageHandler(~filters.COMMAND, 强制添加下载任务已回复)],
 )

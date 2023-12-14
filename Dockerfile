@@ -1,4 +1,4 @@
-FROM python:3.11.3-alpine3.17
+FROM python:3.11.6-slim-bookworm
 
 COPY . /aria2bot
 WORKDIR /aria2bot

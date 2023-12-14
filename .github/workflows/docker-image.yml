@@ -5,12 +5,11 @@ on:
   push:
     branches:
       - main
-    
 
 jobs:
   publish:
     name: Publish container image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       TZ: Asia/Shanghai
     steps:
