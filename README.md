@@ -1,8 +1,16 @@
-# aria2bot
+<div align="center">
+  
+# Aria2bot
 
-Aria2 Telegram Bot 用 bot 控制 Aria2 下载器
+使用 Telegram bot 控制 Aria2 下载器。
 
-## 特性
+Control Aria2 downloader using Telegram bot.
+
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+</div>
+
+## ⭐ 特性
 
 ⚡ 异步实现
 
@@ -14,7 +22,7 @@ Aria2 Telegram Bot 用 bot 控制 Aria2 下载器
 
 😋 中文编程(伪)
 
-## 使用
+## 🖥 使用
 
 ### docker-compose 部署
 
@@ -66,7 +74,7 @@ services:
 
 运行 `docker-compose up -d` 启动容器
 
-### 源码运行
+### ⚙️ 源码运行
 
 Python 版本: 3.10+
 
@@ -87,7 +95,7 @@ pip install -r requirements.txt
 python bot.py
 ```
 
-## demo
+## 🗄 Demo
 
 ![图 1](images/1.webp)  
 
@@ -97,7 +105,7 @@ python bot.py
 
 ![图 4](images/4.webp)  
 
-## TODO
+## 📅 TODO
 
 - [ ] 多下载器支持
 - [x] 添加下载任务
@@ -110,23 +118,23 @@ python bot.py
 - [ ] 任务完成通知
 - [x] docker compose 部署
 
-## 参与开发
+## 🔨 参与开发
 
 欢迎提交 PR, 请使用 black 格式化代码
 
 ~~风格上希望保持伪中文编程~~
 
-### 配置
+###  配置
 
-本项目使用了 [Dynaconf](https://github.com/dynaconf/dynaconf) 作为配置管理,开发时,请在项目根目录下创建 `config.dev.yaml` 文件,它会覆盖 `config.yaml` 中的配置.
+本项目使用了 [Dynaconf](https://github.com/dynaconf/dynaconf) 作为配置管理，开发时请在项目根目录下创建 `config.dev.yaml` 文件，它会覆盖 `config.yaml` 中的配置。
 
-## 鸣谢
+## ♥ 鸣谢
 
 - [aioaria2](https://github.com/synodriver/aioaria2)
 - [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)
 
 etc.
 
-## License
+## 📖 License
 
 MIT
